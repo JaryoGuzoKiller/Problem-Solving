@@ -1,47 +1,42 @@
 #include<iostream>
-#include<vector>
 using namespace std;
+void Hz() {
+	int n, x, cnt = 0;
+	int list[5000];
+	bool flag;
 
-void findCycle() {
-	int n;
 	cin >> n;
-	int* x = new int[n];
+
 	for (int i = 0; i < n; i++) {
-		int k;
-		cin >> k;
-		x[i] = k;
+		cin >> x;
+		list[i] = x;
 	}
 
 	for (int i = 1; i < n; i++) {
-		int* check = new int[i];
-		for (int j = 0; j < i; j++) {
-			check[j] = x[j];
-		}
+		flag = true;
+		for (int j = 0; j < n - i; j++) {
+			if (list[j] != list[j + i]) {
+				flag = false;
 
-		for (int j = 0; j < n; j++) {
-			if (x[j] != check[j % i]) break;
-			if (j == n - 1) {
-				for (int k = 0; k < i; k++) {
-					cout << check[k] << " ";
-				}
-				cout << "\n";
-				return;
+				if (i == n - 1)
+					cnt++;
 			}
 		}
+		cnt++;
+		
+		if (flag) {
+			break;
+		}
 	}
-	for (int i = 0; i < n; i++) {
-		cout << x[i] << " ";
+	for (int i = 0; i < cnt; i++) {
+		cout << list[i] << " ";
 	}
 	cout << "\n";
 }
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	int T;
-	cin >> T;
-	while (T--) {
-		findCycle();
+	int t;
+	cin >> t;
+	for (int i = 0; i < t; i++) {
+		Hz();
 	}
 }
