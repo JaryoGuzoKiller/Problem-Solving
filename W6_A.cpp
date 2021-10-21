@@ -1,67 +1,51 @@
 #include<iostream>
-#include<vector>
 #include<queue>
 using namespace std;
 
-struct counter {
-	int sec = 0;
-	int price = 0;
-	//bool empty = true;
+struct customerInfo {
+	int useTime, cost;
 };
-struct guest {
-	int sec;
-	int price;
+
+struct counterInfo {
+	int endTime, number;
+
+	bool operator<(const counterInfo c)const {
+		if (this->endTime == c.endTime)
+			return this->number > c.number;
+		else
+			return this->endTime > c.endTime;
+	}
 };
+
+customerInfo* customer;
+priority_queue<counterInfo> counterPQ;
+int* costAnswer;
+int N, M, timeAnswer;
+
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	int N, M;
 	cin >> N >> M;
-
-	vector<counter> counter_arr;
-	for (int i = 0; i < N; i++) {
-		counter_arr.push_back({ 0,0 });
+	customer = new customerInfo[M + 1];
+	costAnswer = new int[N + 1];
+	for (int i = 1; i <= M; i++) {
+		cin >> customer[i].useTime >> customer[i].cost;
 	}
 
-	queue<guest> guest_q;
-	int s, p;
-
-	for (int i = 0; i < M; i++) {	
-		cin >> s >> p;
-		guest_q.push({ s,p });
+	for (int i = 1; i <= N;i++) {
+		counterPQ.push({ customer[i].useTime,i });
+		costAnswer[i] = customer[i].cost;
+		timeAnswer = max(timeAnswer, customer[i].useTime);
 	}
-	int sec = 0;
-	while (1) {		
-		sec++;
 
-		for (int i = 0; i < N; i++) {
-			if (counter_arr[i].sec == 0&&!guest_q.empty()) {
-				counter_arr[i].sec += guest_q.front().sec;
-				counter_arr[i].price += guest_q.front().price;
-				guest_q.pop();
-				if(counter_arr[i].sec>=1)
-					counter_arr[i].sec--;
-			}
-			else
-				if (counter_arr[i].sec >= 1)
-					counter_arr[i].sec--;
-		}
-		bool all_clear = true;
-		for (int i = 0; i < N; i++) {
-			if (counter_arr[i].sec != 0) {
-				all_clear = false;
-				break;
-			}
-		}
-		if (guest_q.empty() && all_clear == true) {
-			cout << sec << "\n";
-			for (int i = 0; i < N; i++) {
-				cout << counter_arr[i].price << "\n";
-			}
-			break;
-		}
+	for (int i = N + 1; i <= M; i++) {
+		counterInfo counterTemp = counterPQ.top();
+		counterPQ.pop();
+		counterTemp.endTime += customer[i].useTime;
+		costAnswer[counterTemp.number] += customer[i].cost;
+		timeAnswer = max(timeAnswer, counterTemp.endTime);
+		counterPQ.push(counterTemp);
 	}
-	return 0;
+	cout << timeAnswer << "\n";
+	for (int i = 1; i <= N; i++) {
+		cout << costAnswer[i] << "\n";
+	}
 }
