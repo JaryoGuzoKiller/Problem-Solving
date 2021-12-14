@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<vector>
 using namespace std;
 int N, M;
@@ -67,7 +67,7 @@ int main() {
 		}
 	}
 	vector<string> text;
-	//¼¼·Î
+	//Â¼Â¼Â·ÃŽ
 	for (int i = 0; i < N; i++) {
 		string word;
 		for (int j = 0; j < N; j++) {
@@ -76,7 +76,7 @@ int main() {
 		text.push_back(word);
 	}
 
-	//°¡·Î		
+	//Â°Â¡Â·ÃŽ		
 	for (int i = 0; i < N; i++) {
 		string word;
 		for (int j = 0; j < N; j++) {
@@ -84,7 +84,7 @@ int main() {
 		}
 		text.push_back(word);
 	}
-	//´ë°¢¼±
+	//Â´Ã«Â°Â¢Â¼Â±
 	int i = -1, j = N - 2;
 	int k = j;
 	string word;
