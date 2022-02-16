@@ -1,2 +1,2 @@
-# Problem_Solving
-21-2학기 문해기
+# Problem-Solving
+2021학년도 2학기 문제해결기법
